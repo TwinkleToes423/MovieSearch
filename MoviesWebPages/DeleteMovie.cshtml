@@ -1,4 +1,7 @@
 ﻿@{
+    Layout = "~/_Layout.cshtml";
+    Page.Title = "Delete a Movie";
+
     var title = "";
     var genre = "";
     var year = "";
@@ -6,7 +9,7 @@
 
     if (!IsPost)
     {
-        if (!Request.QueryString["ID"].IsEmpty() && Request.QueryString["ID"].IsInt())
+        if (!Request.QueryString["ID"].IsEmpty() && Request.QueryString["ID"].AsInt() > 0)
         {
             movieId = Request.QueryString["ID"];
             var db = Database.Open("WebPagesMovies");
@@ -21,11 +24,19 @@
             else
             {
                 Validation.AddFormError("No movie was found for that ID.");
+                // If you are using a version of ASP.NET Web Pages 2 that's
+                // earlier than the RC release, comment out the preceding
+                // statement and uncomment the following one.
+                //ModelState.AddFormError("No movie was found for that ID.");
             }
         }
         else
         {
             Validation.AddFormError("No movie was found for that ID.");
+            // If you are using a version of ASP.NET Web Pages 2 that's
+            // earlier than the RC release, comment out the preceding
+            // statement and uncomment the following one.
+            //ModelState.AddFormError("No movie was found for that ID.");
         }
     }
 
@@ -37,39 +48,33 @@
         db.Execute(deleteCommand, movieId);
         Response.Redirect("~/Movies");
     }
+
 }
-<html>
-<head>
-    <title>Delete a Movie</title>
-</head>
-<body>
-    <h1>Delete a Movie</h1>
-    @Html.ValidationSummary()
-    <p><a href="~/Movies">Return to movie listing</a></p>
 
-    <form method="post">
-        <fieldset>
-            <legend>Movie Information</legend>
+<h2>Delete a Movie</h2>
+@Html.ValidationSummary()
+<p><a href="~/Movies">Return to movie listing</a></p>
 
-            <p>
-                <span>Title:</span>
-                <span>@title</span>
-            </p>
+<form method="post">
+    <fieldset>
+        <legend>Movie Information</legend>
 
-            <p>
-                <span>Genre:</span>
-                <span>@genre</span>
-            </p>
+        <p>
+            <span>Title:</span>
+            <span>@title</span>
+        </p>
 
-            <p>
-                <span>Year:</span>
-                <span>@year</span>
-            </p>
+        <p>
+            <span>Genre:</span>
+            <span>@genre</span>
+        </p>
 
-            <input type="hidden" name="movieid" value="@movieId" />
-            <p><input type="submit" name="buttonDelete" value="Delete Movie" /></p>
-        </fieldset>
-        <p><a href="~/Movies">Return to movie listing</a></p>
-    </form>
-</body>
-</html>
+        <p>
+            <span>Year:</span>
+            <span>@year</span>
+        </p>
+
+        <input type="hidden" name="movieid" value="@movieId" />
+        <p><input type="submit" name="buttonDelete" value="Delete Movie" /></p>
+    </fieldset>
+</form>

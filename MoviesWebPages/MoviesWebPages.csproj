@@ -104,6 +104,8 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <Content Include="Movies.cshtml" />
+    <Content Include="Movies.css" />
+    <Content Include="_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.config" />
